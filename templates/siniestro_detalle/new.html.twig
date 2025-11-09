@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nuevo Detalle Siniestro {{ siniestro.id }}{% endblock %}
+
+{% block body %}
+    <h1>Registrar un nuevo detalle del siniestro {{ siniestro.id }}</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('app_persona_new') }}">Registrar Persona</a>
+
+{% endblock %}

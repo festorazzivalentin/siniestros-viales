@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Crear Grupo Etario{% endblock %}
+
+{% block body %}
+    <h1>Crear nuevo grupo etario</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn btn-primary">Guardar</button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('app_grupo_etario') }}">Volver a la lista de Grupos Etarios</a>
+{% endblock %}

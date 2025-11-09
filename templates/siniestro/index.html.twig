@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Listado de Siniestros{% endblock %}
+
+{% block body %}
+    <h1>Listado de Siniestros</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Ubicación</th>
+                <th>Descripción</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for siniestro in siniestros %}
+            <tr>
+                <td>{{ siniestro.id }}</td>
+                <td>{{ siniestro.fecha ? siniestro.fecha|date('d/m/Y') : '-' }}</td>
+                <td>{{ siniestro.hora ? siniestro.hora|date('H:i') : '-' }}</td>
+                <td>{{ siniestro.ubicacion}}</td>
+                <td>{{ siniestro.descripcion }}</td>
+                <td>
+                    <a href="{{ path('app_siniestro_show_detalles', {'id': siniestro.id}) }}">Ver detalles</a>
+                    <a href="{{ path('app_siniestro_detalle_new', {'id': siniestro.id}) }}">Agregar Detalle</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">No se encontraron siniestros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+
+    <a href="{{ path('app_siniestro_new') }}">Registrar nuevo siniestro</a>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rol nuevo{% endblock %}
+
+{% block body %}
+    <h1>Registrar nuevo rol</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('app_rol') }}">Volver al listado de roles</a>
+{% endblock %}

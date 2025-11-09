@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Detalles del siniestro {{ siniestro.id }}{% endblock %}
+
+{% block body %}
+<h1 class="mb-4">Detalles del siniestro #{{ siniestro.id }}</h1>
+
+{% if siniestro.siniestroDetalles is not empty %}
+<table class="table table-striped table-bordered align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Persona</th>
+            <th>Rol</th>
+            <th>Tipo Vehículo</th>
+            <th>Modelo</th>
+            <th>Patente</th>
+            <th>Grupo Etario</th>
+            <th>Estado Civil</th>
+            <th>Edad</th>
+            <th>Estado Alcohólico</th>
+            <th>% Alcohol</th>
+            <th>Observaciones</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for detalle in siniestro.siniestroDetalles %}
+            <tr>
+                <td>{{ detalle.id }}</td>
+                <td>{{ detalle.persona.nombre }}</td>
+                <td>{{ detalle.rol ? detalle.rol.descripcion : '—' }}</td>
+                <td>{{ detalle.tipoVehiculo ? detalle.tipoVehiculo.descripcion : '—' }}</td>
+                <td>{{ detalle.vehiculoModelo }}</td>
+                <td>{{ detalle.vehiculoPatente }}</td>
+                <td>{{ detalle.grupoEtario ? detalle.grupoEtario.descripcion : '—' }}</td>
+                <td>{{ detalle.estadoCivil ? detalle.estadoCivil.descripcion : '—' }}</td>
+                <td>{{ detalle.edad }}</td>
+                <td>{{ detalle.estadoAlcoholico ? detalle.estadoAlcoholico.descripcion : '—' }}</td>
+                <td>{{ detalle.porcentajeAlcohol }}</td>
+                <td>{{ detalle.observaciones }}</td>
+                <td>
+                    <a href="{{ path('app_siniestro_detalle_edit', { id: detalle.id }) }}">Editar</a>
+                    <a href="{{ path('app_siniestro_detalle_delete', { id: detalle.id }) }}">Eliminar</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+    <div class="alert alert-info">
+        No hay detalles registrados para este siniestro.
+    </div>
+{% endif %}
+
+
+<a href="{{ path('app_siniestro') }}" class="btn btn-secondary mt-3">← Volver al listado</a>
+{% endblock %}
