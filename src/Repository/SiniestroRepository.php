@@ -16,6 +16,30 @@ class SiniestroRepository extends ServiceEntityRepository
         parent::__construct($registry, Siniestro::class);
     }
 
+    /**
+     * Buscar siniestros por fecha (igualdad de fecha) o listar todos si no se pasa fecha.
+     * @param string|null $fecha Fecha en formato 'YYYY-MM-DD'
+     * @return Siniestro[]
+     */
+    public function findByFecha(?string $fecha): array
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->orderBy('s.fecha', 'DESC');
+
+        if ($fecha) {
+            try {
+                $date = new \DateTime($fecha);
+                // Comparar por fecha (sin hora)
+                $qb->andWhere('s.fecha = :fecha')
+                   ->setParameter('fecha', $date->format('Y-m-d'));
+            } catch (\Exception $e) {
+                // Si no se puede parsear la fecha, no filtrar
+            }
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
     //    /**
     //     * @return Siniestro[] Returns an array of Siniestro objects
     //     */

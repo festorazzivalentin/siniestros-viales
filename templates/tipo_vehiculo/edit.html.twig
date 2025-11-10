@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editar Tipo de Vehículo {{ tipoVehiculo.descripcion }}{% endblock %}
+
+{% block body %}
+<style>
+/* Tipo Vehículo — edit view with vehicle palette */
+.tv-header { display:flex; justify-content:center; align-items:center; gap:.75rem; padding:1rem 1.25rem; border-radius:.5rem; color:#fff; margin-bottom:1.25rem; background: linear-gradient(135deg,#0ea5ff 0%, #0284c7 100%); }
+.tv-header h1 { margin:0; font-size:1.35rem; font-weight:600; text-align:center; width:auto; }
+.tv-header .bi { font-size:1.6rem; display:inline-flex; align-items:center; color:#fff; }
+
+.tv-card { max-width:760px; margin:0 auto; border-radius:.75rem; overflow:hidden; box-shadow: 0 8px 30px rgba(36, 37, 38, 0.08); }
+.tv-card .card-header { background: linear-gradient(90deg,#e0f2fe 0%,#bae6fd 100%); color:#083344; padding:0.9rem 1.25rem; display:flex; align-items:center; gap:.6rem; }
+.tv-card .card-header strong { color:#083344; }
+.tv-card .card-body { padding:1.25rem; background:#fff; }
+
+.tv-card .form-group,
+.tv-card .form-row { margin-bottom: 1rem; }
+.tv-card label { display:block; margin-bottom: .5rem; font-weight:600; color:#083344; }
+.tv-card .form-control { padding: .55rem .75rem; border-radius: .5rem; border: 1px solid #dbeefc; box-shadow: none; }
+.tv-card .form-control:focus { box-shadow: 0 0 0 0.15rem rgba(2,132,199,0.12); border-color: #0284c7; outline: none; }
+.tv-card .form-text { font-size: .875rem; color: #6b7280; margin-top: .25rem; }
+
+.form-actions { display:flex; gap:.5rem; justify-content:flex-end; margin-top:1rem; }
+
+@media (max-width:576px) {
+  .tv-card { margin:0 1rem; }
+  .tv-header h1 { font-size:1.15rem; }
+  .form-actions { flex-direction:column-reverse; gap:.5rem; }
+}
+</style>
+
+<div class="container mt-4">
+  <div class="tv-header">
+    <i class="bi bi-truck-front-fill" aria-hidden="true"></i>
+    <h1>Editar Tipo de Vehículo "{{ tipoVehiculo.descripcion }}"</h1>
+  </div>
+
+  <div class="tv-card card">
+    <div class="card-header">
+      <i class="bi bi-pencil-square" aria-hidden="true"></i>
+      <strong>Editar tipo</strong>
+    </div>
+    <div class="card-body">
+      {{ form_start(form) }}
+        <div class="form-group">
+          {{ form_label(form.descripcion, 'Descripción', {'label_attr': {'class': 'form-label'}}) }}
+          {{ form_widget(form.descripcion, {
+              'attr': {
+                'class': 'form-control',
+                'value': tipoVehiculo.descripcion
+              }
+            }) }}
+          {{ form_errors(form.descripcion) }}
+        </div>
+
+        <div class="form-actions">
+          <a href="{{ path('tipo_vehiculo_index') }}" class="btn btn-outline-secondary">Cancelar</a>
+          <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        </div>
+      {{ form_end(form) }}
+    </div>
+  </div>
+</div>
+{% endblock %}

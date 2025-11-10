@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Registrar Persona{% endblock %}
+{% block title %}Editar Persona{% endblock %}
 
 {% block body %}
 <style>
-/* Persona - new/edit form styles */
+/* Persona - edit shares styles with new */
 .ps-header { display:flex; align-items:center; gap:.75rem; padding:1rem 1.25rem; border-radius:.5rem; color:#fff; margin-bottom:1.25rem; background: linear-gradient(135deg,#3949ab 0%, #1e88e5 100%); }
 .ps-header h1 { margin:0; font-size:1.35rem; font-weight:600; }
 .ps-card { max-width:720px; margin:0 auto; background:#fff; padding:1.25rem; border-radius:.5rem; box-shadow: 0 8px 30px rgba(36,37,38,0.06); }
@@ -17,7 +17,7 @@
 <div class="container mt-4">
     <div class="ps-header">
         <i class="bi bi-person-vcard me-2" aria-hidden="true"></i>
-        <h1 class="mb-0">Registrar Persona</h1>
+        <h1 class="mb-0">Editar Persona</h1>
     </div>
 
     <div class="ps-card">
@@ -47,7 +47,7 @@
             </div>
 
             <div class="form-actions">
-                <button class="btn btn-primary">{{ button_label|default('Guardar') }}</button>
+                <button class="btn btn-primary">{{ button_label|default('Guardar cambios') }}</button>
                 <a href="{{ path('persona_index') }}" class="btn btn-secondary">Volver al listado</a>
             </div>
         {{ form_end(form) }}

@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editar Clima {{ clima.id }}{% endblock %}
+{% block body %}
+<div class="container mt-4">
+    <h1 class="mb-4">Editar Clima "{{ clima.descripcion }}"</h1>
+
+    {{ form_start(form) }}
+        <div class="mb-3">
+            {{ form_label(form.descripcion, 'Descripción', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.descripcion, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.descripcion) }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        <a href="{{ path('clima_index') }}" class="btn btn-secondary">Cancelar</a>
+    {{ form_end(form) }}
+{% endblock %}

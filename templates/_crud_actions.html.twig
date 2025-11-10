@@ -1,0 +1,8 @@
+{# Reusable CRUD actions fragment. Expects variables: edit_url, delete_url, delete_token, edit_label (optional) #}
+{% if is_granted('ROLE_ADMIN') %}
+    <a href="{{ edit_url }}" class="btn btn-warning btn-sm">{{ edit_label|default('Editar') }}</a>
+    <form method="post" action="{{ delete_url }}" onsubmit="return confirm('¿Está seguro de que desea eliminar este registro?');" style="display:inline;margin:0;">
+        <input type="hidden" name="_token" value="{{ delete_token }}">
+        <button class="btn btn-danger btn-sm">Eliminar</button>
+    </form>
+{% endif %}

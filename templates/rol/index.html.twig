@@ -1,20 +1,59 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello RolController!{% endblock %}
+{% block title %}Roles{% endblock %}
 
 {% block body %}
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+/* Rol index - indigo palette */
+.rol-header { display:flex; align-items:center; gap:.75rem; padding:1rem 1.25rem; border-radius:.5rem; color:#fff; margin-bottom:1.25rem; background: linear-gradient(135deg,#f59e0b 0%, #f97316 100%); }
+.rol-header h1 { margin:0; font-size:1.35rem; font-weight:600; }
+.rol-header .bi { font-size:1.5rem; }
+
+.rol-card { max-width:900px; margin:0 auto; }
+.rol-table { background:#fff; border-radius:.5rem; box-shadow: 0 8px 30px rgba(36,37,38,0.06); overflow:hidden; }
+.rol-table table { margin:0; }
+
+.add-btn { margin-top:1rem; }
 </style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<div class="container mt-4">
+    <div class="rol-header">
+        <i class="bi bi-car-front-fill me-2"></i>
+        <h1 class="mb-0">Roles</h1>
+    </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/festo/Documentos/Dev/siniestros-viales/src/Controller/RolController.php</code></li>
-        <li>Your template at <code>C:/Users/festo/Documentos/Dev/siniestros-viales/templates/rol/index.html.twig</code></li>
-    </ul>
+    <div class="rol-card">
+        <div class="rol-table">
+            <table class="table table-striped mb-0">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Rol</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rol in roles %}
+                        <tr>
+                            <td>{{ rol.id }}</td>
+                            <td>{{ rol.descripcion }}</td>
+                            <td>
+                                <a href="{{ path('rol_edit', {'id': rol.id}) }}" class="btn btn-warning btn-sm">Editar</a>
+                                <a href="{{ path('rol_delete', {'id': rol.id}) }}" class="btn btn-danger btn-sm">Eliminar</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3">No hay roles registrados.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <a href="{{ path('rol_new') }}" class="btn btn-primary add-btn">
+            <i class="bi bi-plus-lg me-1"></i> Registrar Rol
+        </a>
+    </div>
 </div>
 {% endblock %}

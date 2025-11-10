@@ -1,0 +1,153 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inicio{% endblock %}
+
+{% block body %}
+
+<style>
+	.home-hero{ padding:2rem 0; }
+	.dash-card{ border-radius:.75rem; padding:1rem; box-shadow:0 8px 30px rgba(2,6,23,0.06); background:#fff; height:100%; display:flex; flex-direction:column; }
+	.dash-card .icon{ font-size:1.6rem; width:48px; height:48px; display:flex; align-items:center; justify-content:center; border-radius:.5rem; color:#fff; }
+	.dash-title{ font-size:1.05rem; font-weight:600; margin:0; }
+	.dash-desc{ color:#6c757d; font-size:.9rem; }
+	.card-actions{ margin-top:auto; }
+	.bg-siniestro{ background: linear-gradient(135deg,#ef4444 0%, #f97316 100%); }
+	.bg-persona{ background: linear-gradient(135deg,#06b6d4 0%, #06b6d4 60%); }
+	.bg-rol{ background: linear-gradient(135deg,#6366f1 0%, #4f46e5 100%); }
+	.bg-aux{ background: linear-gradient(135deg,#10b981 0%, #34d399 100%); }
+	.home-grid{ gap:1.25rem; }
+	@media (max-width:768px){ .home-grid{ grid-template-columns:repeat(2,1fr) } }
+	@media (max-width:480px){ .home-grid{ grid-template-columns:1fr } }
+</style>
+
+<div class="container mt-4 home-hero">
+	<div class="d-flex align-items-center justify-content-between mb-4">
+		<div>
+			<h1 class="h3 mb-1">Panel de Administración</h1>
+			<p class="text-muted mb-0">Accesos rápidos a los CRUDs del sistema.</p>
+		</div>
+		<div>
+			<a href="{{ path('app_logout') }}" class="btn btn-outline-secondary">Cerrar sesión</a>
+		</div>
+	</div>
+
+	<div class="row home-grid">
+		<div class="col-md-4 mb-3">
+			<div class="dash-card">
+				<div class="d-flex align-items-center gap-3 mb-3">
+					<div class="icon bg-siniestro"><i class="bi bi-exclamation-triangle-fill"></i></div>
+					<div>
+						<p class="dash-title">Siniestros</p>
+						<div class="dash-desc">Listado y gestión de incidentes</div>
+					</div>
+				</div>
+				<div class="card-actions d-flex gap-2">
+					<a href="{{ path('siniestro_index') }}" class="btn btn-primary">Ver Siniestros</a>
+					<a href="{{ path('siniestro_new') }}" class="btn btn-outline-primary">Nuevo</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-4 mb-3">
+			<div class="dash-card">
+				<div class="d-flex align-items-center gap-3 mb-3">
+					<div class="icon bg-persona"><i class="bi bi-people-fill"></i></div>
+					<div>
+						<p class="dash-title">Personas</p>
+						<div class="dash-desc">Gestión de registros de personas</div>
+					</div>
+				</div>
+				<div class="card-actions d-flex gap-2">
+					<a href="{{ path('persona_index') }}" class="btn btn-primary">Ver Personas</a>
+					<a href="{{ path('persona_new') }}" class="btn btn-outline-primary">Nuevo</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-4 mb-3">
+			<div class="dash-card">
+				<div class="d-flex align-items-center gap-3 mb-3">
+					<div class="icon bg-rol"><i class="bi bi-people"></i></div>
+                        <div>
+							<p class="dash-title">Roles</p>
+							<div class="dash-desc">Roles en siniestro</div>
+						</div>
+				</div>
+				<div class="card-actions d-flex gap-2">
+					<a href="{{ path('rol_index') }}" class="btn btn-primary">Ver Roles</a>
+					<a href="{{ path('rol_new') }}" class="btn btn-outline-primary">Nuevo</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-4 mb-3">
+			<div class="dash-card">
+				<div class="d-flex align-items-center gap-3 mb-3">
+					<div class="icon bg-aux"><i class="bi bi-gender-ambiguous"></i></div>
+					<div>
+						<p class="dash-title">Sexo</p>
+						<div class="dash-desc">Catálogo de sexo</div>
+					</div>
+				</div>
+				<div class="card-actions d-flex gap-2">
+					<a href="{{ path('sexo_index') }}" class="btn btn-primary">Ver</a>
+					<a href="{{ path('sexo_new') }}" class="btn btn-outline-primary">Nuevo</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-4 mb-3">
+			<div class="dash-card">
+				<div class="d-flex align-items-center gap-3 mb-3">
+					<div class="icon bg-aux"><i class="bi bi-car-front-fill"></i></div>
+					<div>
+						<p class="dash-title">Tipo de Vehículo</p>
+						<div class="dash-desc">Catálogo de tipos de vehículo</div>
+					</div>
+				</div>
+				<div class="card-actions d-flex gap-2">
+					<a href="{{ path('tipo_vehiculo_index') }}" class="btn btn-primary">Ver</a>
+					<a href="{{ path('tipo_vehiculo_new') }}" class="btn btn-outline-primary">Nuevo</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-4 mb-3">
+			<div class="dash-card">
+				<div class="d-flex align-items-center gap-3 mb-3">
+					<div class="icon bg-aux"><i class="bi bi-people-fill"></i></div>
+					<div>
+						<p class="dash-title">Grupo Etario</p>
+						<div class="dash-desc">Rangos etarios</div>
+					</div>
+				</div>
+				<div class="card-actions d-flex gap-2">
+					<a href="{{ path('grupo_etario_index') }}" class="btn btn-primary">Ver</a>
+					<a href="{{ path('grupo_etario_new') }}" class="btn btn-outline-primary">Nuevo</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-4 mb-3">
+			<div class="dash-card">
+				<div class="d-flex align-items-center gap-3 mb-3">
+					<div class="icon bg-aux"><i class="bi bi-thermometer-sun"></i></div>
+					<div>
+						<p class="dash-title">Clima</p>
+						<div class="dash-desc">Condiciones climáticas</div>
+					</div>
+				</div>
+				<div class="card-actions d-flex gap-2">
+					<a href="{{ path('clima_index') }}" class="btn btn-primary">Ver</a>
+					<a href="{{ path('clima_nuevo') }}" class="btn btn-outline-primary">Nuevo</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-12 mt-3">
+			<div class="text-center text-muted small">Administración - Siniestros Viales</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

@@ -3,12 +3,59 @@
 {% block title %}Crear Grupo Etario{% endblock %}
 
 {% block body %}
-    <h1>Crear nuevo grupo etario</h1>
+    <style>
+    /* Grupo Etario (new) — same layout as edit but distinct green accents */
+    .grupo-header { display:flex; justify-content:center; align-items:center; gap:.75rem; padding:1rem 1.25rem; border-radius:.5rem; color:#fff; margin-bottom:1.25rem; background: linear-gradient(135deg,#10b981 0%, #059669 100%); }
+    .grupo-header h1 { margin:0; font-size:1.35rem; font-weight:600; text-align:center; width:auto; }
+    .grupo-header .bi { font-size:1.6rem; display:inline-flex; align-items:center; color:#fff; }
 
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <button class="btn btn-primary">Guardar</button>
-    {{ form_end(form) }}
+    .grupo-card { max-width:760px; margin:0 auto; border-radius:.75rem; overflow:hidden; box-shadow: 0 8px 30px rgba(36, 37, 38, 0.08); }
+    .grupo-card .card-header { background: linear-gradient(90deg,#d1fae5 0%,#bbf7d0 100%); color:#064e3b; padding:0.9rem 1.25rem; display:flex; align-items:center; gap:.6rem; }
+    .grupo-card .card-header strong { color:#064e3b; }
+    .grupo-card .card-body { padding:1.25rem; background:#fff; }
 
-    <a href="{{ path('app_grupo_etario') }}">Volver a la lista de Grupos Etarios</a>
+    .grupo-card .form-group,
+    .grupo-card .form-row { margin-bottom: 1rem; }
+    .grupo-card label { display:block; margin-bottom: .5rem; font-weight:600; color:#064e3b; }
+    .grupo-card .form-control { padding: .55rem .75rem; border-radius: .5rem; border: 1px solid #e6f9ef; box-shadow: none; }
+    .grupo-card .form-control:focus { box-shadow: 0 0 0 0.15rem rgba(16,185,129,0.12); border-color: #10b981; outline: none; }
+    .grupo-card .form-text { font-size: .875rem; color: #6b7280; margin-top: .25rem; }
+
+    .form-actions { display:flex; gap:.5rem; justify-content:flex-end; margin-top:1rem; }
+
+    @media (max-width:576px) {
+      .grupo-card { margin:0 1rem; }
+      .grupo-header h1 { font-size:1.15rem; }
+      .form-actions { flex-direction:column-reverse; gap:.5rem; }
+    }
+    </style>
+
+    <div class="container mt-4">
+        <div class="grupo-header">
+            <i class="bi bi-people-fill" aria-hidden="true"></i>
+            <h1>Registrar nuevo Grupo Etario</h1>
+        </div>
+
+        <div class="grupo-card card">
+            <div class="card-header">
+                <i class="bi bi-person-plus-fill" aria-hidden="true"></i>
+                <strong>Nuevo grupo</strong>
+            </div>
+            <div class="card-body">
+                {{ form_start(form) }}
+                    <div class="form-group">
+                        {{ form_label(form.descripcion, 'Descripción', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.descripcion, { 'attr': {'class': 'form-control'} }) }}
+                        {{ form_errors(form.descripcion) }}
+                    </div>
+
+                    <div class="form-actions">
+                        <a href="{{ path('grupo_etario_index') }}" class="btn btn-outline-secondary">Cancelar</a>
+                        <button class="btn btn-success">{{ button_label|default('Guardar') }}</button>
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+        <a href="{{ path('grupo_etario_index') }}"></a>
+    </div>
 {% endblock %}

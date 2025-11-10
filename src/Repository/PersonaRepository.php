@@ -16,28 +16,22 @@ class PersonaRepository extends ServiceEntityRepository
         parent::__construct($registry, Persona::class);
     }
 
-    //    /**
-    //     * @return Persona[] Returns an array of Persona objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('p.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    /**
+     * Busca personas por nombre usando LIKE para búsqueda parcial
+     * @param string $nombre El nombre o parte del nombre a buscar
+     * @return Persona[] Returns an array of Persona objects
+     */
+    public function findByNombre(?string $nombre): array
+    {
+        $queryBuilder = $this->createQueryBuilder('p')
+            ->orderBy('p.id', 'ASC');
+        
+        if ($nombre) {
+            $queryBuilder
+                ->andWhere('LOWER(p.nombre) LIKE LOWER(:nombre)')
+                ->setParameter('nombre', '%' . $nombre . '%');
+        }
 
-    //    public function findOneBySomeField($value): ?Persona
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        return $queryBuilder->getQuery()->getResult();
+    }
 }

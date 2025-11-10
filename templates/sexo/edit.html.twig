@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Registrar Sexo{% endblock %}
+{% block title %}Editar Sexo{% endblock %}
 
 {% block body %}
 <style>
-/* Sexo - new/edit form styles reuse */
+/* Sexo - edit shares styles with new */
 .sx-header { display:flex; align-items:center; gap:.75rem; padding:1rem 1.25rem; border-radius:.5rem; color:#fff; margin-bottom:1.25rem; background: linear-gradient(135deg,#ff7ab6 0%, #7c3aed 100%); }
 .sx-header h1 { margin:0; font-size:1.35rem; font-weight:600; }
 .sx-card { max-width:720px; margin:0 auto; background:#fff; padding:1.25rem; border-radius:.5rem; box-shadow: 0 8px 30px rgba(36,37,38,0.06); }
@@ -17,7 +17,7 @@
 <div class="container mt-4">
     <div class="sx-header">
         <i class="bi bi-gender-ambiguous me-2" aria-hidden="true"></i>
-        <h1 class="mb-0">Registrar Sexo</h1>
+        <h1 class="mb-0">Editar Sexo</h1>
     </div>
 
     <div class="sx-card">
@@ -30,7 +30,7 @@
             </div>
 
             <div class="form-actions">
-                <button class="btn btn-primary">Guardar</button>
+                <button class="btn btn-primary">Guardar cambios</button>
                 <a href="{{ path('sexo_index') }}" class="btn btn-secondary">Volver al listado</a>
             </div>
 

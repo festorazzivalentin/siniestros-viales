@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Buscar Personas{% endblock %}
+
+{% block body %}
+<style>
+/* Persona - person palette (indigo → blue) */
+.ps-header { display:flex; align-items:center; gap:.75rem; padding:1rem 1.25rem; border-radius:.5rem; color:#fff; margin-bottom:1.25rem; background: linear-gradient(135deg,#3949ab 0%, #1e88e5 100%); }
+.ps-header h1 { margin:0; font-size:1.35rem; font-weight:600; }
+.ps-card { max-width:720px; margin:0 auto; background:#fff; padding:1.25rem; border-radius:.5rem; box-shadow: 0 8px 30px rgba(36,37,38,0.06); }
+.form-group { margin-bottom:1rem; }
+.form-label { margin-bottom:.35rem; display:block; font-weight:600; }
+.form-control:focus { box-shadow: 0 0 0 .2rem rgba(57,73,171,.15); border-color:#3949ab; }
+.search-actions { display:flex; gap:.5rem; align-items:center; margin-top:1.5rem; }
+.search-help { color:#666; font-size:.875rem; margin-top:.25rem; }
+</style>
+
+<div class="container mt-4">
+    <div class="ps-header">
+        <i class="bi bi-search me-2" aria-hidden="true"></i>
+        <h1 class="mb-0">Buscar Personas</h1>
+    </div>
+
+    <div class="ps-card">
+        <form action="{{ path('persona_buscar') }}" method="get" class="search-form">
+            <div class="form-group">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" id="nombre" name="nombre" class="form-control" value="{{ app.request.query.get('nombre') }}" placeholder="Ingrese el nombre a buscar" required>
+                <small class="search-help">Ingrese el nombre completo o parte del nombre para buscar.</small>
+            </div>
+
+            <div class="search-actions">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-search me-1"></i> Buscar
+                </button>
+                <a href="{{ path('persona_index') }}" class="btn btn-secondary">Volver al listado</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -5,13 +5,54 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
         {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
         {% endblock %}
 
         {% block javascripts %}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
+
+        <link rel="stylesheet" href="{{ asset('css/brite/bootstrap.min.css') }}">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     </head>
     <body>
-        {% block body %}{% endblock %}
+                <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+                    <div class="container-fluid">
+                        <a class="navbar-brand d-flex align-items-center gap-2" href="{{ path('app_home') }}">
+                            <i class="bi bi-speedometer2"></i>
+                            <span class="fw-semibold">Siniestros Viales</span>
+                        </a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+
+                        <div class="collapse navbar-collapse" id="mainNav">
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                <li class="nav-item"><a class="nav-link" href="{{ path('siniestro_index') }}">Siniestros</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ path('persona_index') }}">Personas</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ path('rol_index') }}">Roles</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ path('sexo_index') }}">Sexo</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ path('tipo_vehiculo_index') }}">Tipo Vehículo</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ path('grupo_etario_index') }}">Grupo Etario</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ path('clima_index') }}">Clima</a></li>
+                            </ul>
+
+                            <ul class="navbar-nav mb-2 mb-lg-0">
+                                {% if app.user %}
+                                    <li class="nav-item d-flex align-items-center me-2"><i class="bi bi-person-circle me-1"></i> {{ app.user.userIdentifier }}</li>
+                                    <li class="nav-item"><a class="nav-link" href="{{ path('app_logout') }}">Cerrar sesión</a></li>
+                                {% else %}
+                                    <li class="nav-item"><a class="nav-link" href="{{ path('app_login') }}">Iniciar sesión</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+
+                <div class="mt-4"></div>
+
+                {% block body %}{% endblock %}
     </body>
 </html>

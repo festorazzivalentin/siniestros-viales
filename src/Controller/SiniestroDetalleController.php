@@ -14,15 +14,8 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class SiniestroDetalleController extends AbstractController
 {
-    #[Route('/siniestrodetalle', name: 'app_siniestro_detalle')]
-    public function index(): Response
-    {
-        return $this->render('siniestro_detalle/index.html.twig', [
-            'controller_name' => 'SiniestroDetalleController',
-        ]);
-    }
-
-    #[Route('/siniestrodetalle/new/{id}', name: 'app_siniestro_detalle_new')]
+    
+    #[Route('/siniestro_detalle/new/{id}', name: 'siniestro_detalle_new')]
     public function new(Request $request, EntityManagerInterface $entityManager, Siniestro $siniestro): Response
     {
         $siniestroDetalle = new SiniestroDetalle();
@@ -35,7 +28,7 @@ final class SiniestroDetalleController extends AbstractController
             $entityManager->persist($siniestroDetalle);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_siniestro_show_detalles', ['id' => $siniestro->getId()]);
+            return $this->redirectToRoute('siniestro_detalles', ['id' => $siniestro->getId()]);
         }
 
         return $this->render('siniestro_detalle/new.html.twig', [
@@ -45,16 +38,17 @@ final class SiniestroDetalleController extends AbstractController
         ]);
     }
 
-    #[Route('siniestrodetalle/edit/{id}', name: 'app_siniestro_detalle_edit')]
+    #[Route('siniestro_detalle/edit/{id}', name: 'siniestro_detalle_edit')]
     public function editAction(Request $request, EntityManagerInterface $entityManager, SiniestroDetalle $siniestroDetalle): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $form = $this->createForm(SiniestroDetalleType::class, $siniestroDetalle);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_siniestro_show_detalles', ['id' => $siniestroDetalle->getSiniestro()->getId()]);
+            return $this->redirectToRoute('siniestro_detalles', ['id' => $siniestroDetalle->getSiniestro()->getId()]);
         }
 
         return $this->render('siniestro_detalle/edit.html.twig', [
@@ -63,13 +57,14 @@ final class SiniestroDetalleController extends AbstractController
         ]);
     }
 
-    #[Route('siniestrodetalle/delet/{id}', name: 'app_siniestro_detalle_delete')]
+    #[Route('siniestro_detalle/delete/{id}', name: 'siniestro_detalle_delete')]
     public function deleteAction(EntityManagerInterface $entityManager, SiniestroDetalle $siniestroDetalle): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $siniestroId = $siniestroDetalle->getSiniestro()->getId();
         $entityManager->remove($siniestroDetalle);
         $entityManager->flush();
 
-        return $this->redirectToRoute('app_siniestro_show_detalles', ['id' => $siniestroId]);
+        return $this->redirectToRoute('siniestro_detalles', ['id' => $siniestroId]);
     }
 }

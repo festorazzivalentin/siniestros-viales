@@ -2,9 +2,95 @@
 
 {% block title %}Editar Detalle {{ siniestro_detalle.id }}{% endblock %}
 {% block body %}
-    <h1>Editar detalle {{ siniestro_detalle.id }}</h1>
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <button class="btn">{{ button_label|default('Actualizar') }}</button>
-    {{ form_end(form) }}
+    <style>
+    .sd-form-header { display:flex; align-items:center; gap:.75rem; padding:1rem 1.25rem; border-radius:.5rem; color:#fff; margin-bottom:1.25rem; background: linear-gradient(135deg,#ef4444 0%, #f97316 100%); }
+    .sd-card { max-width:720px; margin:0 auto; background:#fff; padding:1.25rem; border-radius:.5rem; box-shadow: 0 8px 30px rgba(36,37,38,0.06); }
+    .form-group { margin-bottom:1rem; }
+    .form-label { margin-bottom:.35rem; display:block; font-weight:600; }
+    .form-control:focus { box-shadow: 0 0 0 .2rem rgba(249,115,22,.12); border-color:#f97316; }
+    </style>
+
+    <div class="container mt-4">
+        <div class="sd-form-header">
+            <i class="bi bi-pencil-square me-2"></i>
+            <h1 class="mb-0">Editar detalle {{ siniestro_detalle.id }}</h1>
+        </div>
+
+        <div class="sd-card">
+            {{ form_start(form) }}
+
+                <div class="form-group">
+                    {{ form_label(form.persona, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.persona, {'attr': {'class': 'form-select'}}) }}
+                    {{ form_errors(form.persona) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.rol, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.rol, {'attr': {'class': 'form-select'}}) }}
+                    {{ form_errors(form.rol) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.tipo_vehiculo, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.tipo_vehiculo, {'attr': {'class': 'form-select'}}) }}
+                    {{ form_errors(form.tipo_vehiculo) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.vehiculo_modelo, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.vehiculo_modelo, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.vehiculo_modelo) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.vehiculo_patente, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.vehiculo_patente, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.vehiculo_patente) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.edad, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.edad, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.edad) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.grupo_etario, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.grupo_etario, {'attr': {'class': 'form-select'}}) }}
+                    {{ form_errors(form.grupo_etario) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.estado_civil, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.estado_civil, {'attr': {'class': 'form-select'}}) }}
+                    {{ form_errors(form.estado_civil) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.estado_alcoholico, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.estado_alcoholico, {'attr': {'class': 'form-select'}}) }}
+                    {{ form_errors(form.estado_alcoholico) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.porcentaje_alcohol, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.porcentaje_alcohol, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.porcentaje_alcohol) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.observaciones, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.observaciones, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.observaciones) }}
+                </div>
+
+                <div class="mt-3">
+                    <button class="btn btn-primary">{{ button_label|default('Actualizar') }}</button>
+                    <a href="{{ path('siniestro_detalles', {'id': siniestro_detalle.siniestro.id}) }}" class="btn btn-secondary ms-2">Volver</a>
+                </div>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
 {% endblock %}

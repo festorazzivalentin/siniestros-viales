@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nuevo siniestro{% endblock %}
+{% block title %}Editar siniestro {{ siniestro.id }}{% endblock %}
 
 {% block body %}
 <style>
-/* Siniestro form (new/edit) - crimson -> amber */
+/* Siniestro edit form - reuse new styles */
 .sn-form-header { display:flex; align-items:center; gap:.75rem; padding:1rem 1.25rem; border-radius:.5rem; color:#fff; margin-bottom:1.25rem; background: linear-gradient(135deg,#ef4444 0%, #f97316 100%); }
 .sn-card { max-width:720px; margin:0 auto; background:#fff; padding:1.25rem; border-radius:.5rem; box-shadow: 0 8px 30px rgba(36,37,38,0.06); }
 .form-group { margin-bottom:1rem; }
@@ -16,8 +16,8 @@
 
 <div class="container mt-4">
     <div class="sn-form-header">
-        <i class="bi bi-exclamation-triangle-fill me-2" aria-hidden="true"></i>
-        <h1 class="mb-0">Registrar nuevo siniestro</h1>
+        <i class="bi bi-pencil-square me-2" aria-hidden="true"></i>
+        <h1 class="mb-0">Editar siniestro #{{ siniestro.id }}</h1>
     </div>
 
     <div class="sn-card">
@@ -54,7 +54,7 @@
             </div>
 
             <div class="form-actions">
-                <button class="btn btn-primary">{{ button_label|default('Guardar') }}</button>
+                <button class="btn btn-primary">{{ button_label|default('Guardar cambios') }}</button>
                 <a href="{{ path('siniestro_index') }}" class="btn btn-secondary">Volver al listado</a>
             </div>
 

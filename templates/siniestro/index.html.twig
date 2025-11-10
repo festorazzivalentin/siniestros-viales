@@ -3,8 +3,43 @@
 {% block title %}Listado de Siniestros{% endblock %}
 
 {% block body %}
-    <h1>Listado de Siniestros</h1>
-    <table class="table">
+<style>
+/* Siniestro - incident palette (crimson -> amber) */
+.sn-header { display:flex; align-items:center; gap:.75rem; padding:1rem 1.25rem; border-radius:.5rem; color:#fff; margin-bottom:1.25rem; background: linear-gradient(135deg,#ef4444 0%, #f97316 100%); }
+.sn-header h1 { margin:0; font-size:1.35rem; font-weight:600; }
+.sn-card { max-width:1100px; margin:0 auto; }
+.sn-table { background:#fff; border-radius:.5rem; box-shadow: 0 8px 30px rgba(36,37,38,0.06); overflow:hidden; }
+.search-row { display:flex; gap:.5rem; align-items:center; padding:1rem; background:#f8f9fa; border-bottom:1px solid #e9ecef; }
+.search-row .form-control { max-width:220px; }
+.action-bar { display:flex; gap:.5rem; justify-content:space-between; align-items:center; margin-top:1rem; }
+@media (max-width:480px){ .sn-header h1{ font-size:1.1rem } .sn-header .bi{ font-size:1.25rem } .search-row{flex-direction:column; align-items:stretch} }
+</style>
+
+<div class="container mt-4">
+    <div class="sn-header">
+        <i class="bi bi-exclamation-triangle-fill me-2" aria-hidden="true"></i>
+        <h1 class="mb-0">Listado de Siniestros</h1>
+    </div>
+
+    <div class="sn-card">
+        <div class="search-row">
+            <form action="{{ path('siniestro_index') }}" method="get" class="d-flex align-items-center gap-2">
+                <label for="fecha" class="visually-hidden">Fecha</label>
+                <input type="date" id="fecha" name="fecha" class="form-control" value="{{ fecha }}">
+                <button class="btn btn-light" type="submit"><i class="bi bi-search"></i> Buscar</button>
+                {% if fecha %}
+                    <a href="{{ path('siniestro_index') }}" class="btn btn-secondary ms-2">Limpiar</a>
+                {% endif %}
+            </form>
+            <div class="ms-auto">
+                <a href="{{ path('siniestro_new') }}" class="btn btn-light">
+                    <i class="bi bi-plus-lg me-1"></i> Registrar nuevo siniestro
+                </a>
+            </div>
+        </div>
+
+        <div class="sn-table">
+            <table class="table table-striped mb-0">
         <thead>
             <tr>
                 <th>ID</th>
@@ -12,27 +47,45 @@
                 <th>Hora</th>
                 <th>Ubicación</th>
                 <th>Descripción</th>
+                <th>Acciones</th>
             </tr>
         </thead>
-        <tbody>
-        {% for siniestro in siniestros %}
+    <tbody>
+    {% for siniestro in siniestros %}
             <tr>
                 <td>{{ siniestro.id }}</td>
                 <td>{{ siniestro.fecha ? siniestro.fecha|date('d/m/Y') : '-' }}</td>
                 <td>{{ siniestro.hora ? siniestro.hora|date('H:i') : '-' }}</td>
                 <td>{{ siniestro.ubicacion}}</td>
                 <td>{{ siniestro.descripcion }}</td>
-                <td>
-                    <a href="{{ path('app_siniestro_show_detalles', {'id': siniestro.id}) }}">Ver detalles</a>
-                    <a href="{{ path('app_siniestro_detalle_new', {'id': siniestro.id}) }}">Agregar Detalle</a>
-                </td>
+                        <td class="d-flex gap-2">
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <a href="{{ path('siniestro_edit', {'id': siniestro.id}) }}" class="btn btn-warning btn-sm">Editar</a>
+
+                                <form method="post" action="{{ path('siniestro_delete', {'id': siniestro.id}) }}" onsubmit="return confirm('¿Está seguro de que desea eliminar este siniestro?');" style="display:inline;margin:0;">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ siniestro.id) }}">
+                                    <button class="btn btn-danger btn-sm">Eliminar</button>
+                                </form>
+                            {% endif %}
+
+                            <a href="{{ path('siniestro_detalles', {'id': siniestro.id}) }}" class="btn btn-info btn-sm">Ver detalles</a>
+                            <a href="{{ path('siniestro_detalle_new', {'id': siniestro.id}) }}" class="btn btn-light btn-sm">Agregar Detalle</a>
+                        </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">No se encontraron siniestros</td>
+                        <td colspan="6">No se encontraron siniestros</td>
             </tr>
         {% endfor %}
         </tbody>
+            </table>
 
-    <a href="{{ path('app_siniestro_new') }}">Registrar nuevo siniestro</a>
+        </div>
+
+        <div class="action-bar p-3">
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
 {% endblock %}

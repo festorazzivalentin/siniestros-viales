@@ -1,20 +1,86 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ClimaController!{% endblock %}
+{% block title %}Clima - Página principal{% endblock %}
 
 {% block body %}
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+/* header con icono y gradiente */
+.clima-header {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: 1rem 1.25rem;
+  border-radius: .5rem;
+  color: #fff;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); /* ejemplo: cielo claro */
+}
+
+/* ensure the H1 has no bottom margin inside the header so the icon and text align */
+.clima-header h1 { margin: 0; }
+
+/* icon sizing and vertical centering */
+.clima-header .bi {
+    font-size: 1.6rem;
+    display: inline-flex;
+    align-items: center;
+}
+
+/* variante para clima nublado */
+.clima-header.nublado {
+  background: linear-gradient(135deg, #5f6b7a 0%, #97a0ae 100%);
+}
+
+/* hero con imagen + overlay gradiente */
+.clima-hero {
+  border-radius: .5rem;
+  color: #fff;
+  padding: 1.5rem;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+}
+.clima-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* overlay gradiente para mejorar contraste sobre la imagen */
+  background: linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.5));
+  pointer-events: none;
+}
+.clima-hero > * { position: relative; z-index: 1; } /* sitúa el contenido encima del overlay */
 </style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/festo/Documentos/Dev/siniestros-viales/src/Controller/ClimaController.php</code></li>
-        <li>Your template at <code>C:/Users/festo/Documentos/Dev/siniestros-viales/templates/clima/index.html.twig</code></li>
-    </ul>
+<div class="container mt-4">
+    <div class="clima-header">
+        <i class="bi bi-cloud-sun-fill"></i>
+        <h1 class="mb-0">Condiciones Climáticas</h1>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Descripción</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for clima in climas %}
+                <tr>
+                    <td>{{ clima.id }}</td>
+                    <td>{{ clima.descripcion }}</td>
+                    <td>
+                        <a href="{{ path('clima_editar', {'id': clima.id}) }}" class="btn btn-warning btn-sm">Editar</a>
+                        <a href="{{ path('clima_eliminar', {'id': clima.id}) }}" class="btn btn-danger btn-sm">Eliminar</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="2">No se encontraron condiciones climáticas.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ path('clima_nuevo') }}" class="btn btn-primary">Registrar Clima</a>
 </div>
 {% endblock %}

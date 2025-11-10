@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editar Estado Civil {{ estado.descripcion }}{% endblock %}
+
+{% block body %}
+<style>
+/* Estado Civil — styles similar to other entities, purple palette */
+.civil-header { display:flex; justify-content:center; align-items:center; gap:.75rem; padding:1rem 1.25rem; border-radius:.5rem; color:#fff; margin-bottom:1.25rem; background: linear-gradient(135deg,#7c3aed 0%, #6d28d9 100%); }
+.civil-header h1 { margin:0; font-size:1.35rem; font-weight:600; text-align:center; width:auto; }
+.civil-header .bi { font-size:1.6rem; display:inline-flex; align-items:center; color:#fff; }
+
+.civil-card { max-width:760px; margin:0 auto; border-radius:.75rem; overflow:hidden; box-shadow: 0 8px 30px rgba(36, 37, 38, 0.08); }
+.civil-card .card-header { background: linear-gradient(90deg,#e9d5ff 0%,#c4b5fd 100%); color:#2b0b4a; padding:0.9rem 1.25rem; display:flex; align-items:center; gap:.6rem; }
+.civil-card .card-header strong { color:#2b0b4a; }
+.civil-card .card-body { padding:1.25rem; background:#fff; }
+
+.civil-card .form-group,
+.civil-card .form-row { margin-bottom: 1rem; }
+.civil-card label { display:block; margin-bottom: .5rem; font-weight:600; color:#2b0b4a; }
+.civil-card .form-control { padding: .55rem .75rem; border-radius: .5rem; border: 1px solid #efe6fb; box-shadow: none; }
+.civil-card .form-control:focus { box-shadow: 0 0 0 0.15rem rgba(124,58,237,0.12); border-color: #7c3aed; outline: none; }
+.civil-card .form-text { font-size: .875rem; color: #6b7280; margin-top: .25rem; }
+
+.form-actions { display:flex; gap:.5rem; justify-content:flex-end; margin-top:1rem; }
+
+@media (max-width:576px) {
+  .civil-card { margin:0 1rem; }
+  .civil-header h1 { font-size:1.15rem; }
+  .form-actions { flex-direction:column-reverse; gap:.5rem; }
+}
+</style>
+
+<div class="container mt-4">
+  <div class="civil-header">
+    <i class="bi bi-people-fill" aria-hidden="true"></i>
+    <h1>Editar Estado Civil "{{ estado.descripcion }}"</h1>
+  </div>
+
+  <div class="civil-card card">
+    <div class="card-header">
+      <i class="bi bi-person-badge-fill" aria-hidden="true"></i>
+      <strong>Editar estado</strong>
+    </div>
+    <div class="card-body">
+      {{ form_start(form) }}
+        <div class="form-group">
+          {{ form_label(form.descripcion, 'Descripción', {'label_attr': {'class': 'form-label'}}) }}
+          {{ form_widget(form.descripcion, {
+              'attr': {
+                'class': 'form-control',
+                'value': estado.descripcion
+              }
+            }) }}
+          {{ form_errors(form.descripcion) }}
+        </div>
+
+        <div class="form-actions">
+          <a href="{{ path('estado_civil_index') }}" class="btn btn-outline-secondary">Cancelar</a>
+          <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        </div>
+      {{ form_end(form) }}
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Rol;
 use App\Form\RolType;
+use App\Repository\RolRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,15 +13,15 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class RolController extends AbstractController
 {
-    #[Route('/rol', name: 'app_rol')]
-    public function index(): Response
+    #[Route('/rol', name: 'rol_index')]
+    public function index(RolRepository $rol): Response
     {
         return $this->render('rol/index.html.twig', [
-            'controller_name' => 'RolController',
+            'roles' => $rol->findAll(),
         ]);
     }
 
-    #[Route('/rol/new', name: 'app_rol_new')]
+    #[Route('/rol/new', name: 'rol_new')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $rol = new Rol();
@@ -40,4 +41,36 @@ final class RolController extends AbstractController
             'rol' => $rol,
         ]);
     }
+
+    #[Route('/rol/edit/{id}', name: 'rol_edit')]
+    public function edit(Request $request, Rol $rol, EntityManagerInterface $entityManager): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $form = $this->createForm(RolType::class, $rol);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+            return $this->redirectToRoute('rol_index');
+        }
+
+        return $this->render('rol/edit.html.twig', [
+            'form' => $form->createView(),
+            'rol' => $rol,
+        ]);
+
+    }
+
+    #[Route('/rol/delete/{id}', name: 'rol_delete', methods: ['POST'])]
+    public function delete(Request $request, Rol $rol, EntityManagerInterface $entityManager): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        if ($this->isCsrfTokenValid('delete'.$rol->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($rol);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('rol_index');
+    }
+
 }

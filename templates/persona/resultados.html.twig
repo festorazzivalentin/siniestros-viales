@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Personas{% endblock %}
+{% block title %}Resultados de búsqueda{% endblock %}
 
 {% block body %}
 <style>
@@ -13,47 +13,27 @@
 .ps-table { background:#fff; border-radius:.5rem; box-shadow: 0 8px 30px rgba(36,37,38,0.06); overflow:hidden; }
 .ps-table table { margin:0; }
 
-.add-btn { margin-top:1rem; }
-.search-box { display:flex; gap:.5rem; padding:1rem; background:#f8f9fa; border-bottom:1px solid #dee2e6; }
-.search-input { flex:1; max-width:300px; }
-.search-term { font-weight:600; color:#3949ab; margin-bottom:1rem; }
-.action-bar { display:flex; gap:.5rem; justify-content:space-between; align-items:center; margin-top:1rem; }
+.search-term { font-weight:600; color:#3949ab; }
+.search-meta { color:#666; margin-bottom:1rem; }
+.action-bar { display:flex; gap:.5rem; margin-top:1rem; }
 
-@media (max-width:480px){ 
-    .ps-header h1{ font-size:1.1rem } 
-    .ps-header .bi{ font-size:1.25rem }
-    .search-box { flex-direction:column; }
-    .search-input { max-width:100%; }
-}
+@media (max-width:480px){ .ps-header h1{ font-size:1.1rem } .ps-header .bi{ font-size:1.25rem } }
 </style>
 
 <div class="container mt-4">
     <div class="ps-header">
-        <i class="bi bi-person-vcard me-2" aria-hidden="true"></i>
-        <h1 class="mb-0">Personas</h1>
+        <i class="bi bi-search me-2" aria-hidden="true"></i>
+        <h1 class="mb-0">Resultados de búsqueda</h1>
     </div>
 
     <div class="ps-card">
-        <div class="ps-table">
-            <div class="search-box">
-                <div class="search-input">
-                    <form action="{{ path('persona_buscar') }}" method="get" class="d-flex gap-2">
-                        <input type="search" name="nombre" class="form-control" placeholder="Buscar por nombre..." value="{{ app.request.query.get('nombre') }}">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-search"></i>
-                        </button>
-                    </form>
-                </div>
-            </div>
-
-            {% if app.request.query.get('nombre') %}
-                <div class="p-3">
-                    <div class="search-term">
-                        Resultados para: "{{ app.request.query.get('nombre') }}"
-                    </div>
-                </div>
+        <div class="search-meta">
+            {% if nombre %}
+                Resultados para: <span class="search-term">"{{ nombre }}"</span>
             {% endif %}
+        </div>
 
+        <div class="ps-table">
             <table class="table table-striped mb-0">
                 <thead>
                     <tr>
@@ -84,13 +64,7 @@
                     </tr>
                 {% else %}
                     <tr>
-                        <td colspan="6">
-                            {% if app.request.query.get('nombre') %}
-                                No se encontraron personas que coincidan con "{{ app.request.query.get('nombre') }}".
-                            {% else %}
-                                No se encontraron personas.
-                            {% endif %}
-                        </td>
+                        <td colspan="6">No se encontraron personas{% if nombre %} con el nombre "{{ nombre }}"{% endif %}.</td>
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -101,11 +75,9 @@
             <a href="{{ path('persona_new') }}" class="btn btn-light">
                 <i class="bi bi-plus-lg me-1"></i> Registrar Persona
             </a>
-            {% if app.request.query.get('nombre') %}
-                <a href="{{ path('persona_index') }}" class="btn btn-secondary">
-                    <i class="bi bi-x-lg me-1"></i> Limpiar búsqueda
-                </a>
-            {% endif %}
+            <a href="{{ path('persona_index') }}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left me-1"></i> Volver al listado
+            </a>
         </div>
     </div>
 </div>

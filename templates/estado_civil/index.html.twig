@@ -1,20 +1,59 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello EstadoCivilController!{% endblock %}
+{% block title %}Estados Civiles{% endblock %}
 
 {% block body %}
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+/* Estado Civil index - styled list */
+.civil-header { display:flex; align-items:center; gap:.75rem; padding:1rem 1.25rem; border-radius:.5rem; color:#fff; margin-bottom:1.25rem; background: linear-gradient(135deg,#7c3aed 0%, #6d28d9 100%); }
+.civil-header h1 { margin:0; font-size:1.35rem; font-weight:600; }
+.civil-header .bi { font-size:1.5rem; }
+
+.civil-card { max-width:900px; margin:0 auto; }
+.civil-table { background:#fff; border-radius:.5rem; box-shadow: 0 8px 30px rgba(36,37,38,0.06); overflow:hidden; }
+.civil-table table { margin:0; }
+
+.add-btn { margin-top:1rem; }
 </style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<div class="container mt-4">
+    <div class="civil-header">
+        <i class="bi bi-people-fill me-2"></i>
+        <h1 class="mb-0">Estados Civiles</h1>
+    </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/festo/Documentos/Dev/siniestros-viales/src/Controller/EstadoCivilController.php</code></li>
-        <li>Your template at <code>C:/Users/festo/Documentos/Dev/siniestros-viales/templates/estado_civil/index.html.twig</code></li>
-    </ul>
+    <div class="civil-card">
+        <div class="civil-table">
+            <table class="table table-striped mb-0">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Descripción</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for estado in estados %}
+                        <tr>
+                            <td>{{ estado.id }}</td>
+                            <td>{{ estado.descripcion }}</td>
+                            <td>
+                                <a href="{{ path('estado_civil_editar', {'id': estado.id}) }}" class="btn btn-warning btn-sm">Editar</a>
+                                <a href="{{ path('estado_civil_eliminar', {'id': estado.id}) }}" class="btn btn-danger btn-sm">Eliminar</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3">No hay estados civiles registrados.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <a href="{{ path('estado_civil_nuevo') }}" class="btn btn-primary add-btn">
+            <i class="bi bi-plus-lg me-1"></i> Registrar Estado Civil
+        </a>
+    </div>
 </div>
 {% endblock %}

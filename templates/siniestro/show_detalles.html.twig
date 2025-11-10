@@ -3,56 +3,83 @@
 {% block title %}Detalles del siniestro {{ siniestro.id }}{% endblock %}
 
 {% block body %}
-<h1 class="mb-4">Detalles del siniestro #{{ siniestro.id }}</h1>
+<style>
+/* Siniestro Detalles - match siniestro palette */
+.sd-header { display:flex; align-items:center; gap:.75rem; padding:1rem 1.25rem; border-radius:.5rem; color:#fff; margin-bottom:1.25rem; background: linear-gradient(135deg,#ef4444 0%, #f97316 100%); }
+.sd-card { max-width:1200px; margin:0 auto; }
+.sd-table { background:#fff; border-radius:.5rem; box-shadow: 0 8px 30px rgba(36,37,38,0.06); overflow:hidden; }
+.sd-table table { margin:0; border-collapse:collapse; width:100%; }
+/* Force table cells to be vertically centered and remove extra button spacing */
+.sd-table table td, .sd-table table th { vertical-align: middle; }
+.sd-table .btn { line-height: 1; margin-bottom: 0; }
+/* Ensure striped backgrounds cover the full cell area inside the rounded container */
+.sd-table .table-striped>tbody>tr:nth-of-type(odd)>* { background-color: #f8f9fa; }
+.sd-table .table>tbody>tr>td, .sd-table .table>tbody>tr>th { background-clip: padding-box; }
+.small-note { font-size:.9rem; color:#666 }
+@media (max-width:600px){ .sd-header h1{ font-size:1.05rem } }
+</style>
 
-{% if siniestro.siniestroDetalles is not empty %}
-<table class="table table-striped table-bordered align-middle">
-    <thead class="table-dark">
-        <tr>
-            <th>ID</th>
-            <th>Persona</th>
-            <th>Rol</th>
-            <th>Tipo Vehículo</th>
-            <th>Modelo</th>
-            <th>Patente</th>
-            <th>Grupo Etario</th>
-            <th>Estado Civil</th>
-            <th>Edad</th>
-            <th>Estado Alcohólico</th>
-            <th>% Alcohol</th>
-            <th>Observaciones</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for detalle in siniestro.siniestroDetalles %}
-            <tr>
-                <td>{{ detalle.id }}</td>
-                <td>{{ detalle.persona.nombre }}</td>
-                <td>{{ detalle.rol ? detalle.rol.descripcion : '—' }}</td>
-                <td>{{ detalle.tipoVehiculo ? detalle.tipoVehiculo.descripcion : '—' }}</td>
-                <td>{{ detalle.vehiculoModelo }}</td>
-                <td>{{ detalle.vehiculoPatente }}</td>
-                <td>{{ detalle.grupoEtario ? detalle.grupoEtario.descripcion : '—' }}</td>
-                <td>{{ detalle.estadoCivil ? detalle.estadoCivil.descripcion : '—' }}</td>
-                <td>{{ detalle.edad }}</td>
-                <td>{{ detalle.estadoAlcoholico ? detalle.estadoAlcoholico.descripcion : '—' }}</td>
-                <td>{{ detalle.porcentajeAlcohol }}</td>
-                <td>{{ detalle.observaciones }}</td>
-                <td>
-                    <a href="{{ path('app_siniestro_detalle_edit', { id: detalle.id }) }}">Editar</a>
-                    <a href="{{ path('app_siniestro_detalle_delete', { id: detalle.id }) }}">Eliminar</a>
-                </td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
-{% else %}
-    <div class="alert alert-info">
-        No hay detalles registrados para este siniestro.
+<div class="container mt-4">
+    <div class="sd-header">
+        <i class="bi bi-file-earmark-text-fill me-2" aria-hidden="true"></i>
+        <h1 class="mb-0">Detalles del siniestro #{{ siniestro.id }}</h1>
     </div>
-{% endif %}
 
+    <div class="sd-card">
+        {% if siniestro.siniestroDetalles is not empty %}
+        <div class="sd-table">
+            <table class="table table-striped table-bordered align-middle mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Persona</th>
+                        <th>Rol</th>
+                        <th>Tipo Vehículo</th>
+                        <th>Modelo</th>
+                        <th>Patente</th>
+                        <th>Grupo Etario</th>
+                        <th>Estado Civil</th>
+                        <th>Edad</th>
+                        <th>Estado Alcohólico</th>
+                        <th>% Alcohol</th>
+                        <th>Observaciones</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for detalle in siniestro.siniestroDetalles %}
+                        <tr>
+                            <td>{{ detalle.id }}</td>
+                            <td>{{ detalle.persona.nombre }}</td>
+                            <td>{{ detalle.rol ? detalle.rol.descripcion : '—' }}</td>
+                            <td>{{ detalle.tipoVehiculo ? detalle.tipoVehiculo.descripcion : '—' }}</td>
+                            <td>{{ detalle.vehiculoModelo }}</td>
+                            <td>{{ detalle.vehiculoPatente }}</td>
+                            <td>{{ detalle.grupoEtario ? detalle.grupoEtario.descripcion : '—' }}</td>
+                            <td>{{ detalle.estadoCivil ? detalle.estadoCivil.descripcion : '—' }}</td>
+                            <td>{{ detalle.edad }}</td>
+                            <td>{{ detalle.estadoAlcoholico ? detalle.estadoAlcoholico.descripcion : '—' }}</td>
+                            <td>{{ detalle.porcentajeAlcohol }}</td>
+                            <td>{{ detalle.observaciones }}</td>
+                            <td class="d-flex gap-2 align-items-center">
+                                <a href="{{ path('siniestro_detalle_edit', { id: detalle.id }) }}" class="btn btn-warning btn-sm">Editar</a>
+                                <a href="{{ path('siniestro_detalle_delete', { id: detalle.id }) }}" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que desea eliminar este detalle?');">Eliminar</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+            <div class="alert alert-info">
+                No hay detalles registrados para este siniestro.
+            </div>
+        {% endif %}
 
-<a href="{{ path('app_siniestro') }}" class="btn btn-secondary mt-3">← Volver al listado</a>
+        <div class="mt-3">
+            <a href="{{ path('siniestro_index') }}" class="btn btn-secondary">← Volver al listado</a>
+            <a href="{{ path('siniestro_detalle_new', {'id': siniestro.id}) }}" class="btn btn-light ms-2">Agregar detalle</a>
+        </div>
+    </div>
+</div>
 {% endblock %}
