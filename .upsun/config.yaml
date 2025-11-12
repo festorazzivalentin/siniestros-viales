@@ -1,75 +1,71 @@
 routes:
-    "https://{all}/": { type: upstream, upstream: "app:http" }
-    "http://{all}/": { type: redirect, to: "https://{all}/" }
+  "https://{default}/":
+    type: upstream
+    upstream: "app:http"
 
 services:
-    database:
-        type: postgresql:16
+  mysql:
+    type: mariadb:10.4
+    disk: 1024
 
 applications:
-    app:
-        source:
-            root: "/"
+  app:
+    type: "php:8.2"
+    disk: 2048
 
-        type: php:8.2
+    source:
+      root: "/"
 
-        runtime:
-            extensions:
-                - apcu
-                - blackfire
-                - ctype
-                - iconv
-                - mbstring
-                - pdo_pgsql
-                - sodium
-                - xsl
+    mounts:
+      "/var": "shared:files/var"
+      "/var/cache": { source: instance, source_path: var/cache }
+      "/var/share": { source: storage, source_path: var/share }
 
-        variables:
-            php:
-                opcache.preload: config/preload.php
+    relationships:
+      database: "mysql:mysql"
 
-        build:
-            flavor: none
+    web:
+      locations:
+        "/":
+          root: "public"
+          index: ["index.php"]
+          scripts: true
+          passthru: "/index.php"
+          expires: 1h
 
-        web:
-            locations:
-                "/":
-                    root: "public"
-                    expires: 1h
-                    passthru: "/index.php"
+    runtime:
+      extensions:
+        - apcu
+        - ctype
+        - iconv
+        - mbstring
+        - pdo_mysql
+        - sodium
+        - xsl
 
-        mounts:
-            "/var/cache": { source: instance, source_path: var/cache }
-            "/var/share": { source: storage, source_path: var/share }
-            
+    variables:
+      php:
+        opcache.preload: config/preload.php
 
-        relationships:
-            database: "database:postgresql"
+    build:
+      flavor: none
 
-        hooks:
-            build: |
-                set -x -e
+    hooks:
+      build: |
+        set -e
+        composer install --no-dev --optimize-autoloader
+      deploy: |
+        php bin/console doctrine:migrations:migrate --no-interaction
 
-                curl -fs https://get.symfony.com/cloud/configurator | bash
-                
-                NODE_VERSION=22 symfony-build
+    crons:
+      security-check:
+        spec: '50 23 * * *'
+        cmd: if [ "$PLATFORM_ENVIRONMENT_TYPE" = "production" ]; then croncape COMPOSER_ROOT_VERSION=1.0.0 COMPOSER_AUDIT_ABANDONED=ignore composer audit --no-cache; fi
+      clean-expired-sessions:
+        spec: '17,47 * * * *'
+        cmd: croncape php-session-clean
 
-            deploy: |
-                set -x -e
-
-                symfony-deploy
-
-        crons:
-            security-check:
-                # Check that no security issues have been found for PHP packages deployed in production
-                spec: '50 23 * * *'
-                cmd: if [ "$PLATFORM_ENVIRONMENT_TYPE" = "production" ]; then croncape COMPOSER_ROOT_VERSION=1.0.0 COMPOSER_AUDIT_ABANDONED=ignore composer audit --no-cache; fi
-            clean-expired-sessions:
-                spec: '17,47 * * * *'
-                cmd: croncape php-session-clean
-
-        workers:
-            messenger:
-                commands:
-                    # Consume "async" messages (as configured in the routing section of config/packages/messenger.yaml)
-                    start: symfony console --time-limit=3600 --memory-limit=64M messenger:consume async
+    workers:
+      messenger:
+        commands:
+          start: symfony console --time-limit=3600 --memory-limit=64M messenger:consume async

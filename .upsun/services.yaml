@@ -1,4 +1,0 @@
-services:
-  mysql:
-    type: mariadb:10.4
-    disk: 1024
