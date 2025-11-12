@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reporte de Víctimas y Autores{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Distribución de Víctimas y Autores</h1>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div style="max-width: 600px; margin: 0 auto;">
+                {{ render_chart(chart) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="{{ path('siniestro_index') }}" class="btn btn-secondary">
+            ← Volver a Siniestros
+        </a>
+    </div>
+</div>
+{% endblock %}

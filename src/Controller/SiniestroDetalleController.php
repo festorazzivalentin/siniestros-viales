@@ -6,11 +6,12 @@ use App\Entity\Siniestro;
 use App\Entity\SiniestroDetalle;
 use App\Form\SiniestroDetalleType;
 use Doctrine\ORM\EntityManagerInterface;
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\UX\Chartjs\Model\Chart;
+use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 
 final class SiniestroDetalleController extends AbstractController
 {
@@ -67,4 +68,65 @@ final class SiniestroDetalleController extends AbstractController
 
         return $this->redirectToRoute('siniestro_detalles', ['id' => $siniestroId]);
     }
+
+    #[Route('siniestro_detalle/reportes/victima_autor', name: 'siniestro_detalle_reportes_victima_autor')]
+    public function reportesVictimaAutor(ChartBuilderInterface $chartBuilder): Response 
+    {
+        $chart = $chartBuilder->createChart(Chart::TYPE_PIE);
+
+        $data = [
+            'Víctimas' => 120,
+            'Autores' => 80,
+        ];
+
+        $chart->setData([
+            'labels' => array_keys($data),
+            'datasets' => [
+                [
+                    'label' => 'Cantidad',
+                    'data' => array_values($data),
+                    'backgroundColor' => ['#FF6384', '#36A2EB'],
+                ],
+            ],
+        ]);
+
+        return $this->render('siniestro_detalle/reportes_victima_autor.html.twig', [
+            'chart' => $chart,
+        ]);
+    }
+
+    #[Route('siniestro_detalle/reportes/tipo_vehiculo', name: 'siniestro_detalle_reportes_tipo_vehiculo')]
+    public function reportesTipoVehiculo(ChartBuilderInterface $chartBuilder): Response 
+    {
+        $chart = $chartBuilder->createChart(Chart::TYPE_BAR);
+        $data = [
+            'Automóvil' => 45,
+            'Motocicleta' => 30,
+            'Bicicleta' => 20,
+            'Camión' => 15,
+        ];
+        $chart->setData([
+            'labels' => array_keys($data),
+            'datasets' => [
+                [
+                    'label' => 'Cantidad de Vehículos',
+                    'data' => array_values($data),
+                    'backgroundColor' => '#4BC0C0',
+                ],
+            ],
+        ]);
+
+        $chart->setOptions([
+            'scales' => [
+                'y' => [
+                    'suggestMin' => 0,
+                    'suggestMax' => 100,
+                ],
+            ],
+        ]);
+        return $this->render('siniestro_detalle/reportes_tipo_vehiculo.html.twig', [
+            'chart' => $chart,
+        ]);
+    }
+
 }

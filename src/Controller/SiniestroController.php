@@ -10,6 +10,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
+use Symfony\UX\Chartjs\Model\Chart;
+use Symfony\UX\Chartjs\Builder\ChartBuilder;
 
 final class SiniestroController extends AbstractController
 {
@@ -24,6 +27,8 @@ final class SiniestroController extends AbstractController
             'fecha' => $fecha,
         ]);
     }
+
+
 
     #[Route('/siniestro/new', name: 'siniestro_new')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response {
@@ -45,7 +50,7 @@ final class SiniestroController extends AbstractController
         ]);
     }
 
-    #[Route('/siniestro/{id}', name: 'siniestro_show', methods: ['GET'])]
+    #[Route('/siniestro/{id}', name: 'siniestro_show', methods: ['GET'], requirements: ['id' => '\d+'])]
     public function show(Siniestro $siniestro): Response {
         return $this->render('siniestro/show.html.twig', [
             'siniestro' => $siniestro,
@@ -88,4 +93,69 @@ final class SiniestroController extends AbstractController
         }
         return $this->redirectToRoute('siniestro_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/siniestro/reportes/mes', name: 'siniestro_reportes_mes')]
+    public function reportesMes(ChartBuilderInterface $chartBuilder): Response
+    {
+        $chart = $chartBuilder->createChart(Chart::TYPE_BAR);
+
+        $chart->setData([
+            'labels' => ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            'datasets' => [
+                [
+                    'label' => 'Siniestros por Mes',
+                    'backgroundColor' => 'rgba(75, 192, 192, 0.2)',
+                    'borderColor' => 'rgba(75, 192, 192, 1)',
+                    'borderWidth' => 1,
+                    'data' => [12, 19, 3, 5, 2, 3, 7, 8, 6, 4, 9, 11],
+                ],
+            ],
+        ]);
+
+        $chart->setOptions([
+            'scales' => [
+                'y' => [
+                    'suggestMin' => 0,
+                    'suggestMax' => 100,
+                ],
+            ],
+        ]);
+
+        return $this->render('siniestro/reportes_mes.html.twig', [
+            'chart' => $chart,
+        ]);
+    }
+
+    #[Route('siniestro/reportes/anio', name: 'siniestro_reportes_anio')]
+    public function reportesAnio(ChartBuilderInterface $chartBuilder): Response 
+    {
+        $chart = $chartBuilder->createChart(Chart::TYPE_LINE);
+
+        $chart->setData([
+            'labels' => ['2019', '2020', '2021', '2022', '2023', '2024'],
+            'datasets' => [
+                [
+                    'label' => 'Siniestros por Año',
+                    'backgroundColor' => 'rgba(153, 102, 255, 0.2)',
+                    'borderColor' => 'rgba(153, 102, 255, 1)',
+                    'borderWidth' => 1,
+                    'data' => [150, 200, 180, 220, 250, 300],
+                ],
+            ],
+        ]);
+
+        $chart->setOptions([
+            'scales' => [
+                'y' => [
+                    'suggestMin' => 0,
+                    'suggestMax' => 400,
+                ],
+            ],
+        ]);
+
+        return $this->render('siniestro/reportes_anio.html.twig', [
+            'chart' => $chart,
+        ]);
+    }
+
 }

@@ -4,16 +4,83 @@
 
 {% block body %}
 <style>
-/* Siniestro - incident palette (crimson -> amber) */
-.sn-header { display:flex; align-items:center; gap:.75rem; padding:1rem 1.25rem; border-radius:.5rem; color:#fff; margin-bottom:1.25rem; background: linear-gradient(135deg,#ef4444 0%, #f97316 100%); }
-.sn-header h1 { margin:0; font-size:1.35rem; font-weight:600; }
-.sn-card { max-width:1100px; margin:0 auto; }
-.sn-table { background:#fff; border-radius:.5rem; box-shadow: 0 8px 30px rgba(36,37,38,0.06); overflow:hidden; }
-.search-row { display:flex; gap:.5rem; align-items:center; padding:1rem; background:#f8f9fa; border-bottom:1px solid #e9ecef; }
-.search-row .form-control { max-width:220px; }
-.action-bar { display:flex; gap:.5rem; justify-content:space-between; align-items:center; margin-top:1rem; }
-@media (max-width:480px){ .sn-header h1{ font-size:1.1rem } .sn-header .bi{ font-size:1.25rem } .search-row{flex-direction:column; align-items:stretch} }
+
+
+/* Botones personalizados con look moderno y coherente */
+.btn-sm {
+  border-radius: .4rem;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Editar: tono ámbar más suave */
+.btn-warning {
+  background-color: #fbbf24 !important;
+  border: none;
+  color: #fff !important;
+}
+.btn-warning:hover {
+  background-color: #f59e0b !important;
+}
+
+/* Eliminar: rojo elegante */
+.btn-danger {
+  background-color: #ef4444 !important;
+  border: none;
+  color: #fff !important;
+}
+.btn-danger:hover {
+  background-color: #dc2626 !important;
+}
+
+/* Ver detalles: celeste más limpio */
+.btn-info {
+  background-color: #3b82f6 !important;
+  border: none;
+  color: #fff !important;
+}
+.btn-info:hover {
+  background-color: #2563eb !important;
+}
+
+/* Agregar detalle: gris neutro */
+.btn-light {
+  background-color: #f3f4f6 !important;
+  border: 1px solid #e5e7eb !important;
+  color: #374151 !important;
+}
+.btn-light:hover {
+  background-color: #e5e7eb !important;
+}
+
+/* Tabla más suave visualmente */
+.table-striped > tbody > tr:nth-of-type(odd) {
+  background-color: #fafafa !important;
+}
+.table-striped > tbody > tr:nth-of-type(even) {
+  background-color: #ffffff !important;
+}
+
+/* Bordes redondeados suaves y sombra */
+.sn-table {
+  background: #fff;
+  border-radius: .6rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+/* Ajustar espaciado de celdas */
+.table td, .table th {
+  vertical-align: middle;
+  padding: .75rem 1rem;
+}
+
+/* Hover de filas para mejor enfoque */
+.table tbody tr:hover {
+  background-color: #f1f5f9 !important;
+}
 </style>
+
 
 <div class="container mt-4">
     <div class="sn-header">
@@ -74,7 +141,7 @@
             </tr>
         {% else %}
             <tr>
-                        <td colspan="6">No se encontraron siniestros</td>
+                <td colspan="6">No se encontraron siniestros</td>
             </tr>
         {% endfor %}
         </tbody>
@@ -83,8 +150,9 @@
         </div>
 
         <div class="action-bar p-3">
-            <div></div>
-            <div></div>
+            <a href="{{ path('siniestro_reportes_mes') }}" class="btn btn-info btn-sm">Reporte Siniestros por Mes</a>
+            <a href="{{ path('siniestro_detalle_reportes_victima_autor') }}" class="btn btn-info btn-sm">Reporte Víctima-Autor</a>
+            <a href="{{ path('siniestro_detalle_reportes_tipo_vehiculo') }}" class="btn btn-info btn-sm">Reporte Tipo Vehículo</a>
         </div>
     </div>
 </div>

@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reporte de Siniestros por Año{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="fw-bold text-primary mb-0">
+            <i class="bi bi-graph-up-arrow me-2"></i> Siniestros por Año
+        </h1>
+
+        <div>
+            <a href="{{ path('siniestro_reportes_mes') }}" class="btn btn-outline-secondary me-2">
+                <i class="bi bi-bar-chart"></i> Ver por Mes
+            </a>
+            <a href="{{ path('siniestro_index') }}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left-circle"></i> Volver
+            </a>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <h5 class="card-title mb-3">
+                <i class="bi bi-calendar-range me-2"></i>
+                Evolución de siniestros (2019 - 2024)
+            </h5>
+
+            <div class="border rounded p-3 bg-light">
+                {{ render_chart(chart) }}
+            </div>
+
+            <div class="mt-4 text-muted small text-end">
+                <i class="bi bi-info-circle"></i>
+                Datos simulados para prueba visual
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
