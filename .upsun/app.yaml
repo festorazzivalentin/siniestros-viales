@@ -1,0 +1,23 @@
+name: app
+type: "php:8.2"
+disk: 2048
+
+mounts:
+  "/var": "shared:files/var"
+
+web:
+  locations:
+    "/":
+      root: "public"
+      index: ["index.php"]
+      scripts: true
+
+relationships:
+  database: "mysql:mysql"
+
+hooks:
+  build: |
+    set -e
+    composer install --no-dev --optimize-autoloader
+  deploy: |
+    php bin/console doctrine:migrations:migrate --no-interaction
