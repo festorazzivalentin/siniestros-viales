@@ -45,6 +45,9 @@ applications:
       php:
         opcache.preload: config/preload.php
       env:
+        APP_ENV: "prod"
+        APP_DEBUG: "0"
+        SYMFONY_SKIP_DATABASE: "1"
         DATABASE_URL: "mysql://username:password@mysql.internal:3306/main"
 
     build:
