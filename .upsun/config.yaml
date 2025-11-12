@@ -45,7 +45,7 @@ applications:
       php:
         opcache.preload: config/preload.php
       env:
-        DATABASE_URL: "mysql://mysql:mysql@database.internal:3306/main"
+        DATABASE_URL: "mysql://username:password@mysql.internal:3306/main"
 
     build:
       flavor: none
