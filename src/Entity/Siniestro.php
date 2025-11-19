@@ -34,7 +34,7 @@ class Siniestro
     /**
      * @var Collection<int, SiniestroDetalle>
      */
-    #[ORM\OneToMany(targetEntity: SiniestroDetalle::class, mappedBy: 'siniestro')]
+    #[ORM\OneToMany(targetEntity: SiniestroDetalle::class, mappedBy: 'siniestro', cascade: ['persist'])]
     private Collection $siniestroDetalles;
 
     public function __construct()

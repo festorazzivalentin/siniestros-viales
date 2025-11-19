@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Siniestro;
 use App\Form\SiniestroType;
+use App\Entity\SiniestroDetalle;
 use App\Repository\SiniestroRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -33,7 +34,7 @@ final class SiniestroController extends AbstractController
     #[Route('/siniestro/new', name: 'siniestro_new')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response {
         $siniestro = new Siniestro();
-
+        $siniestro->addSiniestroDetalle(new SiniestroDetalle()); 
         $form = $this->createForm(SiniestroType::class, $siniestro);
         $form->handleRequest($request);
 
@@ -95,19 +96,28 @@ final class SiniestroController extends AbstractController
     }
 
     #[Route('/siniestro/reportes/mes', name: 'siniestro_reportes_mes')]
-    public function reportesMes(ChartBuilderInterface $chartBuilder): Response
+    public function reportesMes(ChartBuilderInterface $chartBuilder, SiniestroRepository $repo): Response
     {
+        $datos = $repo->obtenerCantidadPorMes();
+
+        foreach($datos as $fila){
+            $labels[] = $fila['mes'];
+            $cantidades[] = $fila['cantidad'];
+        }
+
         $chart = $chartBuilder->createChart(Chart::TYPE_BAR);
 
         $chart->setData([
-            'labels' => ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            // ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+            'labels' => $labels,
             'datasets' => [
                 [
                     'label' => 'Siniestros por Mes',
                     'backgroundColor' => 'rgba(75, 192, 192, 0.2)',
                     'borderColor' => 'rgba(75, 192, 192, 1)',
                     'borderWidth' => 1,
-                    'data' => [12, 19, 3, 5, 2, 3, 7, 8, 6, 4, 9, 11],
+                    // [12, 19, 3, 5, 2, 3, 7, 8, 6, 4, 9, 11]
+                    'data' => $cantidades,
                 ],
             ],
         ]);
@@ -117,6 +127,10 @@ final class SiniestroController extends AbstractController
                 'y' => [
                     'suggestMin' => 0,
                     'suggestMax' => 100,
+                    'ticks' => [
+                        'stepSize' => 1,
+                        'precision' => 0,
+                    ],
                 ],
             ],
         ]);
@@ -127,19 +141,28 @@ final class SiniestroController extends AbstractController
     }
 
     #[Route('siniestro/reportes/anio', name: 'siniestro_reportes_anio')]
-    public function reportesAnio(ChartBuilderInterface $chartBuilder): Response 
+    public function reportesAnio(ChartBuilderInterface $chartBuilder, SiniestroRepository $repo): Response 
     {
+        $datos = $repo->obtenerCantidadPorAnio();
+
+        foreach($datos as $fila){
+            $anios[] = $fila['anio'];
+            $cantidades[] = $fila['cantidad'];
+        }
+
         $chart = $chartBuilder->createChart(Chart::TYPE_LINE);
 
         $chart->setData([
-            'labels' => ['2019', '2020', '2021', '2022', '2023', '2024'],
+            // ['2019', '2020', '2021', '2022', '2023', '2024']
+            'labels' => $anios,
             'datasets' => [
                 [
                     'label' => 'Siniestros por Año',
                     'backgroundColor' => 'rgba(153, 102, 255, 0.2)',
                     'borderColor' => 'rgba(153, 102, 255, 1)',
                     'borderWidth' => 1,
-                    'data' => [150, 200, 180, 220, 250, 300],
+                    //[150, 200, 180, 220, 250, 300]
+                    'data' => $cantidades,
                 ],
             ],
         ]);
@@ -149,6 +172,10 @@ final class SiniestroController extends AbstractController
                 'y' => [
                     'suggestMin' => 0,
                     'suggestMax' => 400,
+                    'ticks' => [
+                        'stepSize' => 1,
+                        'precision' => 0,
+                    ],
                 ],
             ],
         ]);

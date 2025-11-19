@@ -4,15 +4,12 @@
 
 {% block body %}
 <style>
-/* Siniestro Detalles - match siniestro palette */
 .sd-header { display:flex; align-items:center; gap:.75rem; padding:1rem 1.25rem; border-radius:.5rem; color:#fff; margin-bottom:1.25rem; background: linear-gradient(135deg,#ef4444 0%, #f97316 100%); }
 .sd-card { max-width:1200px; margin:0 auto; }
 .sd-table { background:#fff; border-radius:.5rem; box-shadow: 0 8px 30px rgba(36,37,38,0.06); overflow:hidden; }
 .sd-table table { margin:0; border-collapse:collapse; width:100%; }
-/* Force table cells to be vertically centered and remove extra button spacing */
 .sd-table table td, .sd-table table th { vertical-align: middle; }
 .sd-table .btn { line-height: 1; margin-bottom: 0; }
-/* Ensure striped backgrounds cover the full cell area inside the rounded container */
 .sd-table .table-striped>tbody>tr:nth-of-type(odd)>* { background-color: #f8f9fa; }
 .sd-table .table>tbody>tr>td, .sd-table .table>tbody>tr>th { background-clip: padding-box; }
 .small-note { font-size:.9rem; color:#666 }

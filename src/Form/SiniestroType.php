@@ -4,6 +4,9 @@ namespace App\Form;
 
 use App\Entity\Clima;
 use App\Entity\Siniestro;
+use App\Entity\SiniestroDetalle;
+use App\Form\SiniestroDetalleType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -39,6 +42,13 @@ class SiniestroType extends AbstractType
             ->add('clima', EntityType::class, [
                 'class' => Clima::class,
                 'choice_label' => 'descripcion',
+            ])
+            ->add('siniestroDetalles', CollectionType::class, [
+                'entry_type' => SiniestroDetalleType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'label' => 'Detalles del Siniestro',
             ])
         ;
     }

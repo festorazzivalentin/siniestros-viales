@@ -53,6 +53,84 @@
                 {{ form_errors(form.clima) }}
             </div>
 
+
+            <hr class="my-4">
+
+            <h5 class="mb-3">Detalle del siniestro</h5>
+
+            
+            {% for detalleForm in form.siniestroDetalles %}
+                
+                <div class="form-group">
+                    {{ form_label(detalleForm.tipo_vehiculo, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(detalleForm.tipo_vehiculo, {'attr': {'class': 'form-select'}}) }}
+                    {{ form_errors(detalleForm.tipo_vehiculo) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(detalleForm.vehiculo_modelo, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(detalleForm.vehiculo_modelo, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(detalleForm.vehiculo_modelo) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(detalleForm.vehiculo_patente, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(detalleForm.vehiculo_patente, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(detalleForm.vehiculo_patente) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(detalleForm.persona, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(detalleForm.persona, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(detalleForm.persona) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(detalleForm.rol, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(detalleForm.rol, {'attr': {'class': 'form-select'}}) }}
+                    {{ form_errors(detalleForm.rol) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(detalleForm.edad, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(detalleForm.edad, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(detalleForm.edad) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(detalleForm.porcentaje_alcohol, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(detalleForm.porcentaje_alcohol, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(detalleForm.porcentaje_alcohol) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(detalleForm.estado_alcoholico, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(detalleForm.estado_alcoholico, {'attr': {'class': 'form-select'}}) }}
+                    {{ form_errors(detalleForm.estado_alcoholico) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(detalleForm.grupo_etario, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(detalleForm.grupo_etario, {'attr': {'class': 'form-select'}}) }}
+                    {{ form_errors(detalleForm.grupo_etario) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(detalleForm.estado_civil, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(detalleForm.estado_civil, {'attr': {'class': 'form-select'}}) }}
+                    {{ form_errors(detalleForm.estado_civil) }}
+                </div>
+
+                
+                <div class="form-group">
+                    {{ form_label(detalleForm.observaciones, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(detalleForm.observaciones, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(detalleForm.observaciones) }}
+                </div>
+
+            {% endfor %}
+
+
             <div class="form-actions">
                 <button class="btn btn-primary">{{ button_label|default('Guardar') }}</button>
                 <a href="{{ path('siniestro_index') }}" class="btn btn-secondary">Volver al listado</a>

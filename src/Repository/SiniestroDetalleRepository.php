@@ -16,6 +16,26 @@ class SiniestroDetalleRepository extends ServiceEntityRepository
         parent::__construct($registry, SiniestroDetalle::class);
     }
 
+    public function contarPorTipoVehiculo(): array {
+        return $this->createQueryBuilder('sd')
+            ->select('tv.descripcion AS tipo, COUNT(sd.id) AS cantidad')
+            ->join('sd.tipo_vehiculo', 'tv')
+            ->groupBy('tv.descripcion')
+            ->getQuery()
+            ->getArrayResult();
+    }
+
+    public function contarVictimaAutor(): array {
+        return $this->createQueryBuilder('d')
+        ->select('r.descripcion AS rol, COUNT(d.id) AS cantidad')
+        ->join('d.rol', 'r')
+        ->where('r.id IN (:ids)')
+        ->setParameter('ids', [1, 2])
+        ->groupBy('r.descripcion')
+        ->getQuery()
+        ->getResult();
+    }
+
     //    /**
     //     * @return SiniestroDetalle[] Returns an array of SiniestroDetalle objects
     //     */

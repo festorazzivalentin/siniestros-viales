@@ -5,6 +5,9 @@ namespace App\Repository;
 use App\Entity\Siniestro;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use DoctrineExtensions\Query\Mysql\Year;
+use DoctrineExtensions\Query\Mysql\Month;
+use DoctrineExtensions\Query\Mysql\MonthName;
 
 /**
  * @extends ServiceEntityRepository<Siniestro>
@@ -29,15 +32,31 @@ class SiniestroRepository extends ServiceEntityRepository
         if ($fecha) {
             try {
                 $date = new \DateTime($fecha);
-                // Comparar por fecha (sin hora)
                 $qb->andWhere('s.fecha = :fecha')
                    ->setParameter('fecha', $date->format('Y-m-d'));
             } catch (\Exception $e) {
-                // Si no se puede parsear la fecha, no filtrar
             }
         }
 
         return $qb->getQuery()->getResult();
+    }
+
+    public function obtenerCantidadPorMes(): array {
+        return $this->createQueryBuilder('s')
+        ->select('MONTH(s.fecha) AS mes_num, MONTHNAME(s.fecha) AS mes, COUNT(s.id) AS cantidad')
+        ->groupBy('mes')
+        ->orderBy('mes', 'ASC')
+        ->getQuery()
+        ->getResult();
+    }
+
+    public function obtenerCantidadPorAnio(): array {
+        return $this->createQueryBuilder('s')
+        ->select('YEAR(s.fecha) AS anio, COUNT(s.id) AS cantidad')
+        ->groupBy('anio')
+        ->orderBy('anio', 'ASC')
+        ->getQuery()
+        ->getResult();
     }
 
     //    /**

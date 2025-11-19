@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Siniestro;
 use App\Entity\SiniestroDetalle;
 use App\Form\SiniestroDetalleType;
+use App\Repository\SiniestroDetalleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -70,21 +71,24 @@ final class SiniestroDetalleController extends AbstractController
     }
 
     #[Route('siniestro_detalle/reportes/victima_autor', name: 'siniestro_detalle_reportes_victima_autor')]
-    public function reportesVictimaAutor(ChartBuilderInterface $chartBuilder): Response 
+    public function reportesVictimaAutor(ChartBuilderInterface $chartBuilder, SiniestroDetalleRepository $repo): Response 
     {
+        $datos = $repo->contarVictimaAutor();
+
+        foreach ($datos as $dato) {
+            $labels[] = $dato['rol'];
+            $cantidades[] = $dato['cantidad'];
+        }
+
+       
         $chart = $chartBuilder->createChart(Chart::TYPE_PIE);
 
-        $data = [
-            'Víctimas' => 120,
-            'Autores' => 80,
-        ];
-
         $chart->setData([
-            'labels' => array_keys($data),
+            'labels' => $labels,
             'datasets' => [
                 [
                     'label' => 'Cantidad',
-                    'data' => array_values($data),
+                    'data' => $cantidades,
                     'backgroundColor' => ['#FF6384', '#36A2EB'],
                 ],
             ],
@@ -96,21 +100,23 @@ final class SiniestroDetalleController extends AbstractController
     }
 
     #[Route('siniestro_detalle/reportes/tipo_vehiculo', name: 'siniestro_detalle_reportes_tipo_vehiculo')]
-    public function reportesTipoVehiculo(ChartBuilderInterface $chartBuilder): Response 
+    public function reportesTipoVehiculo(ChartBuilderInterface $chartBuilder, SiniestroDetalleRepository $repo): Response 
     {
+        $datos = $repo->contarPorTipoVehiculo();
+
+        foreach ($datos as $dato) {
+            $labels[] = $dato['tipo'];
+            $cantidades[] = $dato['cantidad'];
+        }
+
         $chart = $chartBuilder->createChart(Chart::TYPE_BAR);
-        $data = [
-            'Automóvil' => 45,
-            'Motocicleta' => 30,
-            'Bicicleta' => 20,
-            'Camión' => 15,
-        ];
+        
         $chart->setData([
-            'labels' => array_keys($data),
+            'labels' => $labels,
             'datasets' => [
                 [
                     'label' => 'Cantidad de Vehículos',
-                    'data' => array_values($data),
+                    'data' => $cantidades,
                     'backgroundColor' => '#4BC0C0',
                 ],
             ],

@@ -4,7 +4,6 @@
 
 {% block body %}
 <style>
-/* header con icono y gradiente */
 .clima-header {
   display: flex;
   align-items: center;
@@ -13,25 +12,21 @@
   border-radius: .5rem;
   color: #fff;
   margin-bottom: 1rem;
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); /* ejemplo: cielo claro */
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
 }
 
-/* ensure the H1 has no bottom margin inside the header so the icon and text align */
 .clima-header h1 { margin: 0; }
 
-/* icon sizing and vertical centering */
 .clima-header .bi {
     font-size: 1.6rem;
     display: inline-flex;
     align-items: center;
 }
 
-/* variante para clima nublado */
 .clima-header.nublado {
   background: linear-gradient(135deg, #5f6b7a 0%, #97a0ae 100%);
 }
 
-/* hero con imagen + overlay gradiente */
 .clima-hero {
   border-radius: .5rem;
   color: #fff;
@@ -45,11 +40,10 @@
   content: "";
   position: absolute;
   inset: 0;
-  /* overlay gradiente para mejorar contraste sobre la imagen */
   background: linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.5));
   pointer-events: none;
 }
-.clima-hero > * { position: relative; z-index: 1; } /* sitúa el contenido encima del overlay */
+.clima-hero > * { position: relative; z-index: 1; } 
 </style>
 <div class="container mt-4">
     <div class="clima-header">
