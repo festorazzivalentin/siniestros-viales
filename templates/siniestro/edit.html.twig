@@ -53,10 +53,77 @@
                 {{ form_errors(form.clima) }}
             </div>
 
-            <div class="form-actions">
+            
+
+            <h5 class="mb-3">Detalles del siniestro</h5>
+
+        {% for detalleForm in form.siniestroDetalles %}
+            <div class="border rounded p-3 mb-4 bg-light">
+
+                <h6 class="mb-3">Detalle #{{ loop.index }}</h6>
+
+                <div class="form-group mb-2">
+                    {{ form_label(detalleForm.tipo_vehiculo, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(detalleForm.tipo_vehiculo, {'attr': {'class': 'form-select'}}) }}
+                </div>
+
+                <div class="form-group mb-2">
+                    {{ form_label(detalleForm.vehiculo_modelo, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(detalleForm.vehiculo_modelo, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+                <div class="form-group mb-2">
+                    {{ form_label(detalleForm.vehiculo_patente, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(detalleForm.vehiculo_patente, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+                <div class="form-group mb-2">
+                    {{ form_label(detalleForm.persona, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(detalleForm.persona, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+                <div class="form-group mb-2">
+                    {{ form_label(detalleForm.rol, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(detalleForm.rol, {'attr': {'class': 'form-select'}}) }}
+                </div>
+
+                <div class="form-group mb-2">
+                    {{ form_label(detalleForm.edad, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(detalleForm.edad, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+                <div class="form-group mb-2">
+                    {{ form_label(detalleForm.porcentaje_alcohol, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(detalleForm.porcentaje_alcohol, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+                <div class="form-group mb-2">
+                    {{ form_label(detalleForm.estado_alcoholico, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(detalleForm.estado_alcoholico, {'attr': {'class': 'form-select'}}) }}
+                </div>
+
+                <div class="form-group mb-2">
+                    {{ form_label(detalleForm.grupo_etario, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(detalleForm.grupo_etario, {'attr': {'class': 'form-select'}}) }}
+                </div>
+
+                <div class="form-group mb-2">
+                    {{ form_label(detalleForm.estado_civil, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(detalleForm.estado_civil, {'attr': {'class': 'form-select'}}) }}
+                </div>
+
+                <div class="form-group mb-2">
+                    {{ form_label(detalleForm.observaciones, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(detalleForm.observaciones, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+            </div>
+        {% endfor %}
+        
+        <div class="form-actions">
                 <button class="btn btn-primary">{{ button_label|default('Guardar cambios') }}</button>
                 <a href="{{ path('siniestro_index') }}" class="btn btn-secondary">Volver al listado</a>
-            </div>
+        </div>
 
         {{ form_end(form) }}
     </div>

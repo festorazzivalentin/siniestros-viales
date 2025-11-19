@@ -14,9 +14,15 @@
         </div>
     </div>
 
-    <div class="text-center mt-4">
+    <div class="text-center mt-4 card-footer bg-light d-flex ">
         <a href="{{ path('siniestro_index') }}" class="btn btn-secondary">
             ← Volver a Siniestros
+        </a>
+        <a href="{{ path('siniestro_reportes_anio') }}" class="btn btn-outline-success me-2">
+            <i class="bi bi-calendar3"></i> Ver por Año
+        </a>
+        <a href="{{ path('siniestro_reportes_mes') }}" class="btn btn-outline-info">
+            <i class="bi bi-calendar-month"></i> Ver por Mes
         </a>
     </div>
 </div>
