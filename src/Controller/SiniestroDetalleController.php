@@ -127,6 +127,10 @@ final class SiniestroDetalleController extends AbstractController
                 'y' => [
                     'suggestMin' => 0,
                     'suggestMax' => 100,
+                    'ticks' => [
+                        'stepSize' => 1,
+                        'precision' => 0,
+                    ],
                 ],
             ],
         ]);
